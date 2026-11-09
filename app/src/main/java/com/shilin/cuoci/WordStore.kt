@@ -1,6 +1,7 @@
 package com.shilin.cuoci
 
 import android.content.Context
+import android.content.Intent
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.File
@@ -12,6 +13,9 @@ import java.util.Locale
  * 错词存储：按天分组，存成 JSON 文件（应用私有目录），不依赖数据库。
  */
 object WordStore {
+
+    /** 新增错词时发出的广播 action */
+    const val ACTION_WORD_ADDED = "com.shilin.cuoci.WORD_ADDED"
 
     data class Rec(
         val word: String,
@@ -62,6 +66,25 @@ object WordStore {
         list.add(Rec(w, reason, System.currentTimeMillis(), phonetic, meaning))
         save()
         LogStore.add("REC", "记录错词 " + w + "（" + reason + "）")
+        sendWordBroadcast(w, reason, phonetic, meaning)
+    }
+
+    /** 发出广播，供 Tasker / MacroDroid 等自动化工具或其他 App 监听。 */
+    private fun sendWordBroadcast(word: String, reason: String, phonetic: String, meaning: String) {
+        val c = ctx ?: return
+        try {
+            val i = Intent(ACTION_WORD_ADDED)
+            i.putExtra("word", word)
+            i.putExtra("reason", reason)
+            i.putExtra("phonetic", phonetic)
+            i.putExtra("meaning", meaning)
+            i.putExtra("day", todayKey())
+            i.putExtra("message", "错词" + word + "加入错词库")
+            i.setPackage(null)
+            c.sendBroadcast(i)
+        } catch (e: Exception) {
+            LogStore.add("REC", "广播发送失败：" + e.message)
+        }
     }
 
     @Synchronized

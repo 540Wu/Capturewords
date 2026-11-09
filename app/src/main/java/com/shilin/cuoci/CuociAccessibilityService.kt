@@ -55,6 +55,7 @@ class CuociAccessibilityService : AccessibilityService() {
     private var lastSig = ""
     private var detailHit = 0
     private var correctWord = ""
+    private var lastWord = ""
     private var studyStartAt = 0L
     private var lastSeenAt = 0L
 
@@ -65,6 +66,7 @@ class CuociAccessibilityService : AccessibilityService() {
         UsageStore.init(this)
         PetStore.init(this)
         LogStore.add("SVC", "无障碍服务已连接")
+        KeeperService.start(this)
         mainHandler.removeCallbacks(heartbeat)
         mainHandler.postDelayed(heartbeat, 60000L)
         mainHandler.removeCallbacks(pollRunnable)
@@ -90,7 +92,50 @@ class CuociAccessibilityService : AccessibilityService() {
         if (txt.isNotEmpty()) sb.append("  text=\"").append(cut(txt, 60)).append('"')
         LogStore.add("EVT", sb.toString())
 
+        if (type == AccessibilityEvent.TYPE_VIEW_CLICKED) {
+            handleClick(txt)
+        }
+
         scheduleCheck(350)
+    }
+
+    /** 点击事件：处理「看答案」和自评按钮。 */
+    private fun handleClick(clicked: String) {
+        if (clicked.isEmpty()) return
+        val t = clicked.replace("\n", " ")
+
+        // 选择题点「看答案」：当场记下这个单词
+        if (t.contains("看答案")) {
+            val w = readCurrentWord()
+            if (w.isNotEmpty()) {
+                WordStore.add(w, "选择题·看答案")
+            }
+            return
+        }
+
+        if (lastWord.isEmpty()) return
+        val reason = when {
+            t.contains("不认识") || t.contains("忘记了") -> "自评·不认识"
+            t.contains("模糊") -> "自评·模糊"
+            t.contains("记错了") -> "详情页·记错了"
+            else -> null
+        }
+        if (reason != null) {
+            WordStore.add(lastWord, reason)
+        }
+    }
+
+    /** 立即读当前界面的单词（不依赖轮询缓存）。 */
+    private fun readCurrentWord(): String {
+        val root = rootInActiveWindow ?: return ""
+        return try {
+            if (root.packageName?.toString() != TARGET_PKG) return ""
+            normWord(textOfId(root, "tv_word"))
+        } catch (e: Exception) {
+            ""
+        } finally {
+            root.recycle()
+        }
     }
 
     private fun scheduleCheck(delayMs: Long) {
@@ -137,6 +182,7 @@ class CuociAccessibilityService : AccessibilityService() {
             tickUsage(TARGET_PKG)
             val rawWord = textOfId(root, "tv_word")
             val word = normWord(rawWord)
+            if (word.isNotEmpty()) lastWord = word
             val phonetic = textOfId(root, "prononce_display")
             val meaning = pickMeaning(root)
 
@@ -169,6 +215,9 @@ class CuociAccessibilityService : AccessibilityService() {
 
             // 2) 详情页
             if (hasNext) {
+                // 读不到单词时不做判定（刚从选项页切过来的那一瞬）
+                if (word.isEmpty()) return
+
                 if (hasTick) {
                     // 有绿勾 = 认定为「认识」
                     correctWord = ""
@@ -176,13 +225,13 @@ class CuociAccessibilityService : AccessibilityService() {
                     return
                 }
                 if (correctWord.isNotEmpty() && word == correctWord) {
-                    // 这是答题答对后的释义页，不算错
+                    // 答题答对后的释义页，不算错
                     detailHit = 0
                     return
                 }
-                if (correctWord.isNotEmpty() && word != correctWord) correctWord = ""
+                if (correctWord.isNotEmpty()) correctWord = ""
                 detailHit++
-                if (detailHit == 1 && word.isNotEmpty()) {
+                if (detailHit == 1) {
                     WordStore.add(word, "没记住", phonetic, meaning)
                 }
             } else {
@@ -195,7 +244,6 @@ class CuociAccessibilityService : AccessibilityService() {
         }
     }
 
-    /** 只在状态变化时写一行，避免刷屏。 */    /** 对比单词时去掉音节分隔点等符号（complex vs com·plex）。 */
     private fun sameWord(a: String, b: String): Boolean {
         return normWord(a) == normWord(b)
     }
@@ -291,6 +339,8 @@ class CuociAccessibilityService : AccessibilityService() {
     private fun tickUsage(frontPkg: String?) {
         val now = System.currentTimeMillis()
         if (frontPkg == TARGET_PKG) {
+            // 打开「不背单词」时自动确保常驻服务在跑
+            if (!KeeperService.running) KeeperService.start(this)
             if (studyStartAt == 0L) studyStartAt = now
             lastSeenAt = now
         } else if (frontPkg != null && studyStartAt > 0L) {

@@ -25,6 +25,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         WordStore.init(this)
         EssayStore.init(this)
+        PetStore.init(this)
+        KeeperService.start(this)
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -113,6 +115,19 @@ class MainActivity : AppCompatActivity() {
         ft.commit()
         currentTag = tag
         supportActionBar?.title = title
+    }
+
+    override fun onCreateOptionsMenu(menu: android.view.Menu): Boolean {
+        menuInflater.inflate(R.menu.top_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: android.view.MenuItem): Boolean {
+        if (item.itemId == R.id.action_guide) {
+            startActivity(Intent(this, GuideActivity::class.java))
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun showSkinPicker() {

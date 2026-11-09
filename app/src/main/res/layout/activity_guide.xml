@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/appBg">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="14dp">
+
+        <TextView
+            android:id="@+id/tvHeadline"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/cardBackground"
+            android:padding="16dp"
+            android:text="跟着做完下面 3 步，它就能自动帮你记错词了"
+            android:textColor="?attr/textMain"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <!-- 第 1 步：API Key -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="?attr/cardBackground"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="① 填 DeepSeek API Key"
+                    android:textColor="?attr/textMain"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvStateKey"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="未完成"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="用来生成短文、范文和宠物对话。没有 Key 也能抓词，但这些功能不能使用。"
+                android:textColor="?attr/textSub"
+                android:textSize="12sp" />
+
+            <Button
+                android:id="@+id/btnKey"
+                style="@style/Widget.BrandButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="去填写 Key" />
+        </LinearLayout>
+
+        <!-- 第 2 步：无障碍 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="?attr/cardBackground"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="② 打开无障碍服务"
+                    android:textColor="?attr/textMain"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvStateA11y"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="未完成"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="这是抓词的关键。点下面的按钮 → 在列表里找到「错词捕手（记录不背单词的错词）」→ 把开关打开 → 弹出提示时点「允许 / 仍要开启」。"
+                android:textColor="?attr/textSub"
+                android:textSize="12sp" />
+
+            <Button
+                android:id="@+id/btnA11y"
+                style="@style/Widget.BrandButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="去开启无障碍" />
+        </LinearLayout>
+
+        <!-- 第 3 步：后台保活 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="?attr/cardBackground"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="③ 让它别被系统杀掉"
+                    android:textColor="?attr/textMain"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvStateKeep"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="未完成"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="点下面的按钮会打开本应用的设置页，请手动设置：\n· 省电策略 → 无限制\n· 自启动 → 允许\n设置完划掉后台也不会停止监听。"
+                android:textColor="?attr/textSub"
+                android:textSize="12sp" />
+
+            <Button
+                android:id="@+id/btnKeep"
+                style="@style/Widget.OutlineButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="去应用设置" />
+        </LinearLayout>
+
+        <!-- 完成 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="?attr/cardBackground"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="④ 去背单词吧"
+                android:textColor="?attr/textMain"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="打开「不背单词」正常学习：\n· 选择题选错、点「看答案」\n· 点「模糊 / 忘记了」\n· 点「认识」后又点「记错了」\n这些词都会自动进入首页的错词列表。\n\n背完回到本 App，点「用这些错词生成短文」就行。"
+                android:textColor="?attr/textSub"
+                android:textSize="12sp" />
+
+            <Button
+                android:id="@+id/btnDone"
+                style="@style/Widget.OutlineButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="我知道了" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="24dp"
+            android:gravity="center"
+            android:text="遇到抓不到词的情况：\n去「设置 → 无障碍」把错词捕手的开关关掉再打开一次"
+            android:textColor="?attr/textTertiary"
+            android:textSize="11sp" />
+
+    </LinearLayout>
+
+</ScrollView>
