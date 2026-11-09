@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">错词捕手</string>
+    <string name="accessibility_service_label">错词捕手（记录不背单词的错词）</string>
+    <string name="accessibility_service_description">只读取「不背单词」App 的界面内容，用来记录你答错或标记为不认识的单词，之后自动生成包含这些词的学习短文。不会读取其他 App 的任何信息，也不会上传屏幕内容。</string>
+</resources>

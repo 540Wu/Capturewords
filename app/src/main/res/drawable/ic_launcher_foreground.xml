@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- 三条单词行 -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M26,33h46a5,5 0 0 1 5,5v0a5,5 0 0 1 -5,5h-46a5,5 0 0 1 -5,-5v0a5,5 0 0 1 5,-5z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M26,50h34a5,5 0 0 1 5,5v0a5,5 0 0 1 -5,5h-34a5,5 0 0 1 -5,-5v0a5,5 0 0 1 5,-5z" />
+    <path
+        android:fillColor="#D7DEFF"
+        android:pathData="M26,67h24a5,5 0 0 1 5,5v0a5,5 0 0 1 -5,5h-24a5,5 0 0 1 -5,-5v0a5,5 0 0 1 5,-5z" />
+
+    <!-- 被标记出来的那个词 -->
+    <path
+        android:fillColor="#FF9F1C"
+        android:pathData="M78,72m-11,0a11,11 0 1,1 22,0a11,11 0 1,1 -22,0" />
+    <path
+        android:fillColor="#2F4FE0"
+        android:pathData="M73.2,72.4l2.6,2.6 5.4,-5.6 2.2,2.2 -7.6,7.8 -4.8,-4.8z" />
+
+</vector>

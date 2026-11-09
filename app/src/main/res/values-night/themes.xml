@@ -1,0 +1,158 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- ========== 默认（清爽蓝） ========== -->
+    <style name="Theme.CaptureWords" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/brand</item>
+        <item name="colorPrimaryVariant">@color/brand_dark</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">@color/brand</item>
+        <item name="colorSecondaryVariant">@color/brand_dark</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="android:statusBarColor" tools:targetApi="l">@color/brand_dark</item>
+        <item name="android:windowBackground">@color/app_bg</item>
+        <item name="android:navigationBarColor">@color/card</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o">true</item>
+
+        <item name="appBg">@color/app_bg</item>
+        <item name="cardBackground">@drawable/bg_card</item>
+        <item name="textMain">@color/text_primary</item>
+        <item name="textSub">@color/text_secondary</item>
+        <item name="textTertiary">@color/text_tertiary</item>
+        <item name="lineColor">@color/line</item>
+        <item name="cardSolid">@color/card</item>
+        <item name="btnCorner">14dp</item>
+        <item name="btnStroke">0dp</item>
+    </style>
+
+    <!-- ========== 星露谷（暖木色） ========== -->
+    <style name="Theme.CaptureWords.Farm">
+        <item name="colorPrimary">@color/farm_brand</item>
+        <item name="colorPrimaryVariant">@color/farm_brand_dark</item>
+        <item name="colorSecondary">@color/farm_brand</item>
+        <item name="colorSecondaryVariant">@color/farm_brand_dark</item>
+        <item name="android:statusBarColor" tools:targetApi="l">@color/farm_brand_dark</item>
+        <item name="android:windowBackground">@color/farm_bg</item>
+
+        <item name="appBg">@color/farm_bg</item>
+        <item name="cardBackground">@drawable/bg_card_farm</item>
+        <item name="textMain">@color/farm_text</item>
+        <item name="textSub">@color/farm_sub</item>
+        <item name="textTertiary">@color/farm_sub</item>
+        <item name="lineColor">@color/farm_line</item>
+        <item name="cardSolid">@color/farm_card</item>
+        <item name="btnCorner">10dp</item>
+        <item name="btnStroke">2dp</item>
+    </style>
+
+    <!-- ========== 僵尸（深绿夜色） ========== -->
+    <style name="Theme.CaptureWords.Zombie">
+        <item name="colorPrimary">@color/z_brand</item>
+        <item name="colorPrimaryVariant">@color/z_brand_dark</item>
+        <item name="colorSecondary">@color/z_brand</item>
+        <item name="colorSecondaryVariant">@color/z_brand_dark</item>
+        <item name="colorOnPrimary">#FF1B1D23</item>
+        <item name="android:statusBarColor" tools:targetApi="l">#FF0D1A0A</item>
+        <item name="android:windowBackground">@color/z_bg</item>
+        <item name="android:navigationBarColor">@color/z_card</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o">false</item>
+
+        <item name="appBg">@color/z_bg</item>
+        <item name="cardBackground">@drawable/bg_card_pixel</item>
+        <item name="textMain">@color/z_text</item>
+        <item name="textSub">@color/z_sub</item>
+        <item name="textTertiary">@color/z_sub</item>
+        <item name="lineColor">@color/z_line</item>
+        <item name="cardSolid">@color/z_card</item>
+        <item name="btnCorner">0dp</item>
+        <item name="btnStroke">3dp</item>
+        <item name="android:fontFamily">monospace</item>
+        <item name="android:typeface">monospace</item>
+    </style>
+
+    <!-- ========== 二级页面（带标题栏） ========== -->
+    <style name="Theme.CaptureWords.Sub" parent="Theme.MaterialComponents.Light.DarkActionBar">
+        <item name="colorPrimary">@color/brand</item>
+        <item name="colorPrimaryVariant">@color/brand_dark</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">@color/brand</item>
+        <item name="colorSecondaryVariant">@color/brand_dark</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="android:statusBarColor" tools:targetApi="l">@color/brand_dark</item>
+        <item name="android:windowBackground">@color/app_bg</item>
+
+        <item name="appBg">@color/app_bg</item>
+        <item name="cardBackground">@drawable/bg_card</item>
+        <item name="textMain">@color/text_primary</item>
+        <item name="textSub">@color/text_secondary</item>
+        <item name="textTertiary">@color/text_tertiary</item>
+        <item name="lineColor">@color/line</item>
+        <item name="cardSolid">@color/card</item>
+        <item name="btnCorner">14dp</item>
+        <item name="btnStroke">0dp</item>
+    </style>
+
+    <style name="Theme.CaptureWords.Sub.Farm">
+        <item name="colorPrimary">@color/farm_brand</item>
+        <item name="colorPrimaryVariant">@color/farm_brand_dark</item>
+        <item name="colorSecondary">@color/farm_brand</item>
+        <item name="colorSecondaryVariant">@color/farm_brand_dark</item>
+        <item name="android:statusBarColor" tools:targetApi="l">@color/farm_brand_dark</item>
+        <item name="android:windowBackground">@color/farm_bg</item>
+
+        <item name="appBg">@color/farm_bg</item>
+        <item name="cardBackground">@drawable/bg_card_farm</item>
+        <item name="textMain">@color/farm_text</item>
+        <item name="textSub">@color/farm_sub</item>
+        <item name="textTertiary">@color/farm_sub</item>
+        <item name="lineColor">@color/farm_line</item>
+        <item name="cardSolid">@color/farm_card</item>
+        <item name="btnCorner">10dp</item>
+        <item name="btnStroke">2dp</item>
+    </style>
+
+    <style name="Theme.CaptureWords.Sub.Zombie">
+        <item name="colorPrimary">@color/z_brand</item>
+        <item name="colorPrimaryVariant">@color/z_brand_dark</item>
+        <item name="colorSecondary">@color/z_brand</item>
+        <item name="colorSecondaryVariant">@color/z_brand_dark</item>
+        <item name="colorOnPrimary">#FF1B1D23</item>
+        <item name="android:statusBarColor" tools:targetApi="l">#FF0D1A0A</item>
+        <item name="android:windowBackground">@color/z_bg</item>
+
+        <item name="appBg">@color/z_bg</item>
+        <item name="cardBackground">@drawable/bg_card_pixel</item>
+        <item name="textMain">@color/z_text</item>
+        <item name="textSub">@color/z_sub</item>
+        <item name="textTertiary">@color/z_sub</item>
+        <item name="lineColor">@color/z_line</item>
+        <item name="cardSolid">@color/z_card</item>
+        <item name="btnCorner">0dp</item>
+        <item name="btnStroke">3dp</item>
+        <item name="android:fontFamily">monospace</item>
+        <item name="android:typeface">monospace</item>
+    </style>
+
+    <!-- ========== 按钮样式（跟随主题色） ========== -->
+    <style name="Widget.BrandButton" parent="Widget.MaterialComponents.Button">
+        <item name="cornerRadius">?attr/btnCorner</item>
+        <item name="strokeWidth">?attr/btnStroke</item>
+        <item name="strokeColor">?attr/lineColor</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:textSize">14sp</item>
+        <item name="backgroundTint">?attr/colorPrimary</item>
+        <item name="android:textColor">?attr/colorOnPrimary</item>
+    </style>
+
+    <style name="Widget.OutlineButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="cornerRadius">?attr/btnCorner</item>
+        <item name="strokeWidth">?attr/btnStroke</item>
+        <item name="strokeColor">?attr/lineColor</item>
+        <item name="strokeColor">?attr/lineColor</item>
+        <item name="android:textColor">?attr/textMain</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+</resources>

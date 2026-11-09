@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <!-- 主题色板 -->
+    <color name="brand">#2F4FE0</color>
+    <color name="brand_dark">#23379F</color>
+    <color name="brand_soft">#E8ECFF</color>
+    <color name="app_bg">#F4F5F9</color>
+    <color name="card">#FFFFFF</color>
+    <color name="text_primary">#1B1D23</color>
+    <color name="text_secondary">#6B7280</color>
+    <color name="text_tertiary">#9AA1AE</color>
+    <color name="line">#EDEFF4</color>
+    <color name="ok">#17864A</color>
+    <color name="warn">#C0392B</color>
+
+    <!-- 星露谷风格 -->
+    <color name="farm_bg">#EFE3C8</color>
+    <color name="farm_card">#FFF9EC</color>
+    <color name="farm_brand">#8B5A2B</color>
+    <color name="farm_brand_dark">#6B4420</color>
+    <color name="farm_text">#3E2C1C</color>
+    <color name="farm_sub">#7A6A55</color>
+    <color name="farm_line">#D6BE93</color>
+
+    <!-- 植物大战僵尸风格 -->
+    <color name="z_bg">#14260F</color>
+    <color name="z_card">#1E3A16</color>
+    <color name="z_brand">#C9A227</color>
+    <color name="z_brand_dark">#8A6D14</color>
+    <color name="z_text">#F3F0DC</color>
+    <color name="z_sub">#A8B894</color>
+    <color name="z_line">#3E7A2E</color>
+</resources>
