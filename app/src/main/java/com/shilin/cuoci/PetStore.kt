@@ -1,6 +1,7 @@
 package com.shilin.cuoci
 
 import android.content.Context
+import org.json.JSONObject
 
 /**
  * 宠物成长系统：
@@ -166,5 +167,25 @@ object PetStore {
 
     fun reset() {
         sp?.edit()?.clear()?.apply()
+    }
+
+    // ===== 备份 / 合并 =====
+
+    fun exportData(): JSONObject {
+        val o = JSONObject()
+        o.put("exp", exp())
+        o.put("name", petName())
+        return o
+    }
+
+    /** 经验取较大值，名字本机为空时才用对方的。 */
+    fun mergeData(other: JSONObject) {
+        val s = sp ?: return
+        val otherExp = other.optInt("exp", 0)
+        if (otherExp > exp()) s.edit().putInt(K_EXP, otherExp).apply()
+        val otherName = other.optString("name", "")
+        if (petName().isEmpty() && otherName.isNotEmpty()) {
+            s.edit().putString(K_NAME, otherName).apply()
+        }
     }
 }

@@ -26,6 +26,7 @@ class MainActivity : AppCompatActivity() {
         WordStore.init(this)
         EssayStore.init(this)
         PetStore.init(this)
+        WordBank.init(this)
         KeeperService.start(this)
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
@@ -92,6 +93,7 @@ class MainActivity : AppCompatActivity() {
         }
         val fm = supportFragmentManager
         val ft = fm.beginTransaction()
+        ft.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
 
         for (f in fm.fragments) {
             val t = f.tag

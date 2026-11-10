@@ -42,6 +42,62 @@ object EssayStore {
 
     private fun file(): File? = ctx?.let { File(it.filesDir, "essays.json") }
 
+    // ===== 备份 / 合并 =====
+
+    @Synchronized
+    fun exportData(): JSONObject {
+        val root = JSONObject()
+        for ((day, e) in data) {
+            val o = JSONObject()
+            o.put("words", JSONArray(e.words))
+            val arr = JSONArray()
+            for (p in e.parts) {
+                val po = JSONObject()
+                po.put("w", JSONArray(p.words))
+                po.put("en", p.english)
+                po.put("zh", p.chinese)
+                po.put("m", JSONArray(p.missing))
+                arr.put(po)
+            }
+            o.put("parts", arr)
+            root.put(day, o)
+        }
+        return root
+    }
+
+    /** 只补本机没有的日期，不覆盖已有短文。返回新增天数。 */
+    @Synchronized
+    fun mergeData(other: JSONObject): Int {
+        var added = 0
+        for (day in other.keys()) {
+            if (data.containsKey(day)) continue
+            val o = other.optJSONObject(day) ?: continue
+            val words = ArrayList<String>()
+            val wArr = o.optJSONArray("words")
+            if (wArr != null) for (i in 0 until wArr.length()) words.add(wArr.getString(i))
+
+            val parts = ArrayList<EssayGenerator.Part>()
+            val arr = o.optJSONArray("parts")
+            if (arr != null) {
+                for (i in 0 until arr.length()) {
+                    val p = arr.getJSONObject(i)
+                    parts.add(
+                        EssayGenerator.Part(
+                            jsonList(p.getJSONArray("w")),
+                            p.optString("en", ""),
+                            p.optString("zh", ""),
+                            jsonList(p.optJSONArray("m") ?: JSONArray())
+                        )
+                    )
+                }
+            }
+            data[day] = Entry(words, parts)
+            added++
+        }
+        if (added > 0) persist()
+        return added
+    }
+
     private fun load() {
         val f = file() ?: return
         if (!f.exists()) return

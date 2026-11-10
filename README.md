@@ -29,6 +29,12 @@
 - **宠物养成**：学习词数 = 经验，7 种形态随等级进化，可对话（AI 按形态切换性格）、每天主动提醒高频词和好词好句
 - **两套外观**：默认蓝、星露谷暖木色
 
+## 内置词库
+
+内置离线词库（7058 词，含音标与中文释义）取自 [qwerty-learner](https://github.com/Kaiyiwing/qwerty-learner) 的 CET4 / CET6 / 2025 考研红宝书词表，合并去重后打包进 `app/src/main/assets/wordbank.json`。
+
+查词逻辑：**先查本地词库，查不到才调用 AI**，以尽量减少 token 消耗。
+
 ## 环境要求
 
 - Android 10（API 29）及以上

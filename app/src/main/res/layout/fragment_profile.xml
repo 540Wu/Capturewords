@@ -2,7 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/appBg">
+    android:background="@android:color/transparent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -236,6 +236,38 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="清空今天的记录" />
+
+            <Button
+                android:id="@+id/btnLanTransfer"
+                style="@style/Widget.OutlineButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="局域网互传（同一 WiFi/热点直传）" />
+
+            <Button
+                android:id="@+id/btnExport"
+                style="@style/Widget.OutlineButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="导出数据（发到另一台设备）" />
+
+            <Button
+                android:id="@+id/btnImport"
+                style="@style/Widget.OutlineButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="导入数据（合并另一台）" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="两台设备都装了本 App 时：A 设备导出 → 微信发到 B 设备 → B 导入，就能合并（同一词只算一次）"
+                android:textColor="?attr/textTertiary"
+                android:textSize="11sp" />
         </LinearLayout>
 
         <TextView

@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import java.time.LocalDate
 import java.time.YearMonth
@@ -20,12 +21,13 @@ import java.util.Locale
 class HistoryFragment : Fragment() {
 
     private var ym: YearMonth = YearMonth.now()
-    private var selected: LocalDate = LocalDate.now()
+    private var selected: LocalDate = LocalDate.parse(DayUtil.todayKey())
 
     private var tvMonth: TextView? = null
     private var weekContainer: LinearLayout? = null
     private var detailContainer: LinearLayout? = null
     private var tts: TextToSpeech? = null
+    private val handler = android.os.Handler(android.os.Looper.getMainLooper())
 
     private val colorMarkedBg: Int
         get() = (SkinManager.brand(requireContext()) and 0x00FFFFFF) or 0x22000000
@@ -82,7 +84,7 @@ class HistoryFragment : Fragment() {
 
     private fun defaultDay(): LocalDate {
         val marks = markedDays()
-        if (ym == YearMonth.now()) return LocalDate.now()
+        if (ym == YearMonth.from(LocalDate.parse(DayUtil.todayKey()))) return LocalDate.parse(DayUtil.todayKey())
         if (marks.isEmpty()) return ym.atDay(1)
         return marks.maxOrNull()?.let { ym.atDay(it) } ?: ym.atDay(1)
     }
@@ -150,7 +152,7 @@ class HistoryFragment : Fragment() {
                 val date = ym.atDay(d)
                 val hasData = marks.contains(d)
                 val isSelected = date == selected
-                val isToday = date == LocalDate.now()
+                val isToday = date == LocalDate.parse(DayUtil.todayKey())
 
                 when {
                     isSelected -> {
@@ -206,11 +208,21 @@ class HistoryFragment : Fragment() {
             val btn = Button(requireContext())
             btn.text = "看短文"
             btn.textSize = 12f
+            btn.setPadding(dp(8), dp(4), dp(8), dp(4))
             btn.setOnClickListener {
                 ResultActivity.parts = essay.parts
                 startActivity(Intent(requireContext(), ResultActivity::class.java))
             }
             head.addView(btn)
+        }
+
+        if (list.isNotEmpty()) {
+            val gen = Button(requireContext())
+            gen.text = if (essay != null && essay.parts.isNotEmpty()) "重新生成" else "生成短文"
+            gen.textSize = 12f
+            gen.setPadding(dp(8), dp(4), dp(8), dp(4))
+            gen.setOnClickListener { generateForDay(dayKey, list, gen) }
+            head.addView(gen)
         }
         box.addView(head)
 
@@ -243,6 +255,45 @@ class HistoryFragment : Fragment() {
             }
             box.addView(tv)
         }
+    }
+
+    /** 为历史某一天生成／重新生成短文 */
+    private fun generateForDay(day: String, list: List<WordStore.Rec>, btn: Button) {
+        val ctx = context ?: return
+        val key = Prefs.apiKey(ctx)
+        if (key.isEmpty()) {
+            Toast.makeText(ctx, "先去设置里填 DeepSeek API Key", Toast.LENGTH_LONG).show()
+            startActivity(Intent(ctx, SettingsActivity::class.java))
+            return
+        }
+
+        val words = list.map { it.word }
+        val origin = btn.text.toString()
+        btn.isEnabled = false
+        btn.text = "生成中…"
+
+        Thread {
+            try {
+                val parts = EssayGenerator.generateAll(key, words) { done, total ->
+                    handler.post { btn.text = "" + done + "/" + total }
+                }
+                EssayStore.save(day, words, parts)
+                handler.post {
+                    if (!isAdded) return@post
+                    btn.isEnabled = true
+                    btn.text = origin
+                    render()
+                    Toast.makeText(ctx, "短文已生成", Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                handler.post {
+                    if (!isAdded) return@post
+                    btn.isEnabled = true
+                    btn.text = origin
+                    Toast.makeText(ctx, "生成失败：" + e.message, Toast.LENGTH_LONG).show()
+                }
+            }
+        }.start()
     }
 
     private fun dp(v: Int): Int = (v * resources.displayMetrics.density).toInt()

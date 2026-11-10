@@ -65,6 +65,26 @@ object UsageStore {
 
     private fun file(): File? = ctx?.let { File(it.filesDir, "usage.json") }
 
+    // ===== 备份 / 合并 =====
+
+    @Synchronized
+    fun exportData(): JSONObject {
+        val root = JSONObject()
+        for ((day, ms) in data) root.put(day, ms)
+        return root
+    }
+
+    /** 同一天取较大值，避免重复累加。 */
+    @Synchronized
+    fun mergeData(other: JSONObject) {
+        for (day in other.keys()) {
+            val ms = other.optLong(day)
+            val cur = data[day] ?: 0L
+            if (ms > cur) data[day] = ms
+        }
+        persist()
+    }
+
     private fun load() {
         val f = file() ?: return
         if (!f.exists()) return

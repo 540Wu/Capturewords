@@ -33,7 +33,8 @@ object PetChat {
         body.put("model", "deepseek-chat")
         body.put("stream", false)
         body.put("temperature", 1.2)
-        body.put("max_tokens", 80)
+        // 只要 1-2 句、25 字以内，50 token 到顶
+        body.put("max_tokens", 50)
 
         val msgs = JSONArray()
 
@@ -45,8 +46,8 @@ object PetChat {
             "可以使用颜文字或一两个 emoji。偶尔催主人去背单词。说话风格必须符合你现在的形态，别跑偏。"
         msgs.put(JSONObject().put("role", "system").put("content", sys))
 
-        // 最近几条对话作为上下文
-        val recent = if (history.size > 6) history.subList(history.size - 6, history.size) else history
+        // 最近 3 条对话作为上下文（越少越省）
+        val recent = if (history.size > 3) history.subList(history.size - 3, history.size) else history
         for ((isUser, text) in recent) {
             msgs.put(
                 JSONObject()

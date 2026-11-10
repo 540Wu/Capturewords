@@ -25,4 +25,41 @@ object Prefs {
     fun setTipDay(ctx: Context, day: String) {
         sp(ctx).edit().putString("tip_day", day).apply()
     }
+
+    // 易混淆词缓存（按天）
+    fun confuseCache(ctx: Context, day: String): String =
+        sp(ctx).getString("confuse_" + day, "") ?: ""
+
+    fun setConfuseCache(ctx: Context, day: String, json: String) {
+        sp(ctx).edit().putString("confuse_" + day, json).apply()
+    }
+
+    // 宠物每天聊天条数（防止一直聊烧 token）
+    fun petChatCount(ctx: Context): Int {
+        val s = sp(ctx)
+        if (s.getString("chat_day", "") != WordStore.todayKey()) return 0
+        return s.getInt("chat_count", 0)
+    }
+
+    fun incPetChat(ctx: Context) {
+        sp(ctx).edit()
+            .putString("chat_day", WordStore.todayKey())
+            .putInt("chat_count", petChatCount(ctx) + 1)
+            .apply()
+    }
+
+    // 上次同步成功的设备地址
+    fun lanIp(ctx: Context): String = sp(ctx).getString("lan_ip", "") ?: ""
+
+    fun setLanIp(ctx: Context, ip: String) {
+        sp(ctx).edit().putString("lan_ip", ip.trim()).apply()
+    }
+
+    // 每个词的近义词缓存（同一个词只花一次 token）
+    fun synonym(ctx: Context, word: String): String =
+        sp(ctx).getString("syn_" + word.lowercase(), "") ?: ""
+
+    fun setSynonym(ctx: Context, word: String, v: String) {
+        sp(ctx).edit().putString("syn_" + word.lowercase(), v).apply()
+    }
 }

@@ -95,6 +95,8 @@ object EssayGenerator {
         body.put("model", "deepseek-chat")
         body.put("stream", false)
         body.put("temperature", 1.1)
+        // 50~100 词短文 + 中文译文，400 token 足够
+        body.put("max_tokens", 420)
         val msgs = JSONArray()
         msgs.put(JSONObject().put("role", "system").put("content", SYSTEM_PROMPT))
         msgs.put(JSONObject().put("role", "user").put("content", userPrompt))

@@ -38,6 +38,20 @@
             android:theme="@style/Theme.CaptureWords.Sub" />
 
         <activity
+            android:name=".ConfuseActivity"
+            android:exported="false"
+            android:label="易混淆词"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/Theme.CaptureWords.Sub" />
+
+        <activity
+            android:name=".TransferActivity"
+            android:exported="false"
+            android:label="局域网互传"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/Theme.CaptureWords.Sub" />
+
+        <activity
             android:name=".GuideActivity"
             android:exported="false"
             android:label="新手指引"
@@ -57,6 +71,16 @@
             android:label="今日短文"
             android:parentActivityName=".MainActivity"
             android:theme="@style/Theme.CaptureWords.Sub" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
 
         <service
             android:name=".KeeperService"

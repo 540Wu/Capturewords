@@ -6,6 +6,7 @@ import org.json.JSONArray
 import org.json.JSONObject
 import java.io.File
 import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
@@ -142,11 +143,68 @@ object WordStore {
         return out
     }
 
-    fun todayKey(): String = dayFmt.format(Date(System.currentTimeMillis()))
+    fun todayKey(): String = DayUtil.todayKey()
 
     fun timeText(t: Long): String = timeFmt.format(Date(t))
 
     private fun file(): File? = ctx?.let { File(it.filesDir, "records.json") }
+
+    // ===== 备份 / 合并 =====
+
+    @Synchronized
+    fun exportData(): JSONObject {
+        val root = JSONObject()
+        for ((day, list) in data) {
+            val arr = JSONArray()
+            for (r in list) {
+                val o = JSONObject()
+                o.put("w", r.word)
+                o.put("r", r.reason)
+                o.put("t", r.time)
+                o.put("ph", r.phonetic)
+                o.put("m", r.meaning)
+                arr.put(o)
+            }
+            root.put(day, arr)
+        }
+        return root
+    }
+
+    /** 合并另一份数据，按「日期+单词」去重，返回新增的词数。 */
+    @Synchronized
+    fun mergeData(other: JSONObject): Int {
+        var added = 0
+        for (day in other.keys()) {
+            val arr = other.optJSONArray(day) ?: continue
+            val list = data.getOrPut(day) { ArrayList() }
+            for (i in 0 until arr.length()) {
+                val o = arr.optJSONObject(i) ?: continue
+                val w = o.optString("w", "").trim()
+                if (w.isEmpty()) continue
+                if (list.any { it.word.equals(w, ignoreCase = true) }) {
+                    // 已存在：把缺的释义补上
+                    for (j in list.indices) {
+                        val r = list[j]
+                        if (r.word.equals(w, ignoreCase = true)) {
+                            if (r.phonetic.isEmpty() && o.optString("ph").isNotEmpty()) {
+                                list[j] = Rec(r.word, r.reason, r.time, o.optString("ph"), r.meaning)
+                            }
+                            if (r.meaning.isEmpty() && o.optString("m").isNotEmpty()) {
+                                list[j] = Rec(list[j].word, r.reason, r.time, list[j].phonetic, o.optString("m"))
+                            }
+                        }
+                    }
+                } else {
+                    list.add(
+                        Rec(w, o.optString("r"), o.optLong("t"), o.optString("ph"), o.optString("m"))
+                    )
+                    added++
+                }
+            }
+        }
+        if (added > 0) save()
+        return added
+    }
 
     private fun load() {
         val f = file() ?: return
@@ -170,8 +228,51 @@ object WordStore {
                 }
                 data[day] = list
             }
+            migrateNightRecords()
         } catch (e: Exception) {
             LogStore.add("STORE", "读取失败：" + e.message)
+        }
+    }
+
+    /**
+     * 把旧的“凌晨 0-6 点被算到当天”的记录，挪到前一天。
+     * 新数据写入时已经是正确日期，不会重复迁移（幂等）。
+     */
+    private fun migrateNightRecords() {
+        var changed = false
+        val dayKeys = data.keys.toList()
+
+        for (day in dayKeys) {
+            val list = data[day] ?: continue
+            val move = ArrayList<Rec>()
+            val iter = list.iterator()
+            while (iter.hasNext()) {
+                val r = iter.next()
+                val cal = Calendar.getInstance()
+                cal.timeInMillis = r.time
+                val natural = dayFmt.format(cal.time)
+                // 当时按自然日存的，且落在凌晨 0-6 点 → 该算前一天
+                if (natural == day && cal.get(Calendar.HOUR_OF_DAY) < DayUtil.OFFSET_HOUR) {
+                    move.add(r)
+                    iter.remove()
+                    changed = true
+                }
+            }
+            if (move.isNotEmpty()) {
+                val prev = DayUtil.prevKey(day)
+                val prevList = data.getOrPut(prev) { ArrayList() }
+                for (r in move) {
+                    if (prevList.none { it.word.equals(r.word, ignoreCase = true) }) {
+                        prevList.add(r)
+                    }
+                }
+                if (list.isEmpty()) data.remove(day)
+            }
+        }
+
+        if (changed) {
+            save()
+            LogStore.add("STORE", "已把凌晨的记录归到前一天")
         }
     }
 

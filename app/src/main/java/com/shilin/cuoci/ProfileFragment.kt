@@ -2,6 +2,7 @@ package com.shilin.cuoci
 
 import android.content.Intent
 import android.graphics.Typeface
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -12,7 +13,9 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import androidx.activity.result.contract.ActivityResultContracts
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -30,6 +33,10 @@ class ProfileFragment : Fragment() {
     private var tab30: TextView? = null
     private var tabMonth: TextView? = null
     private var range = 7
+
+    private val importLauncher = registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
+        if (uri != null) doImport(uri)
+    }
     private var btnFill: Button? = null
     private val handler = Handler(Looper.getMainLooper())
 
@@ -43,6 +50,7 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         UsageStore.init(requireContext())
+        WordBank.init(requireContext())
         tvTodayCount = view.findViewById(R.id.tvTodayCount)
         tvTotalCount = view.findViewById(R.id.tvTotalCount)
         tvDaysCount = view.findViewById(R.id.tvDaysCount)
@@ -81,6 +89,27 @@ class ProfileFragment : Fragment() {
             EssayStore.remove(WordStore.todayKey())
             Toast.makeText(requireContext(), "已清空今天的记录", Toast.LENGTH_SHORT).show()
             refresh()
+        }
+
+        view.findViewById<Button>(R.id.btnLanTransfer).setOnClickListener {
+            startActivity(Intent(requireContext(), TransferActivity::class.java))
+        }
+
+        view.findViewById<Button>(R.id.btnExport).setOnClickListener {
+            try {
+                val f = Backup.export(requireContext())
+                Backup.share(requireContext(), f)
+            } catch (e: Exception) {
+                Toast.makeText(requireContext(), "导出失败：" + e.message, Toast.LENGTH_LONG).show()
+            }
+        }
+
+        view.findViewById<Button>(R.id.btnImport).setOnClickListener {
+            try {
+                importLauncher.launch(arrayOf("application/json", "text/plain", "*/*"))
+            } catch (e: Exception) {
+                Toast.makeText(requireContext(), "打不开文件选择器：" + e.message, Toast.LENGTH_LONG).show()
+            }
         }
 
         refresh()
@@ -134,20 +163,25 @@ class ProfileFragment : Fragment() {
             return
         }
         val key = Prefs.apiKey(requireContext())
-        if (key.isEmpty()) {
+        val words = missing.map { it.second.word }.distinct()
+        val localHits = words.count { w -> WordBank.lookup(w)?.meaning?.isNotEmpty() == true }
+        if (key.isEmpty() && localHits == 0) {
             Toast.makeText(requireContext(), "先去设置里填 DeepSeek API Key", Toast.LENGTH_LONG).show()
             startActivity(Intent(requireContext(), SettingsActivity::class.java))
             return
         }
 
-        val words = missing.map { it.second.word }.distinct()
         val btn = btnFill ?: return
         btn.isEnabled = false
-        btn.text = "补全中…（" + words.size + " 个词）"
+        btn.text = "补全中…（本地可查 " + localHits + " / 共 " + words.size + "）"
 
         Thread {
             try {
-                val items = MeaningFiller.fill(key, words)
+                // 分批调用，每批最多 40 个词，避免单次请求过大烧 token
+                val items = ArrayList<MeaningFiller.Item>()
+                for (batch in words.chunked(40)) {
+                    items.addAll(MeaningFiller.fill(key, batch))
+                }
                 for ((day, rec) in missing) {
                     val hit = items.firstOrNull { it.word.equals(rec.word, ignoreCase = true) }
                     if (hit != null) {
@@ -175,12 +209,8 @@ class ProfileFragment : Fragment() {
         val items = ArrayList<Pair<String, Long>>()
 
         if (range > 0) {
-            val dayFmt = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-            val labelFmt = SimpleDateFormat("d", Locale.getDefault())
             for (i in range - 1 downTo 0) {
-                val c = Calendar.getInstance()
-                c.add(Calendar.DAY_OF_YEAR, -i)
-                items.add(Pair(labelFmt.format(c.time), UsageStore.dayMs(dayFmt.format(c.time))))
+                items.add(Pair(DayUtil.dayLabel(i), UsageStore.dayMs(DayUtil.keyOffset(i))))
             }
         } else {
             val keyFmt = SimpleDateFormat("yyyy-MM", Locale.getDefault())
@@ -207,6 +237,21 @@ class ProfileFragment : Fragment() {
         tv ?: return
         tv.setTextColor(if (active) on else off)
         tv.setTypeface(null, if (active) Typeface.BOLD else Typeface.NORMAL)
+    }
+
+    private fun doImport(uri: Uri) {
+        try {
+            val text = Backup.readText(requireContext(), uri)
+            val r = Backup.import(requireContext(), text)
+            refresh()
+            AlertDialog.Builder(requireContext())
+                .setTitle("导入完成")
+                .setMessage("新增 " + r.words + " 个错词，" + r.essays + " 天短文。\n\n如果页面没变化，退出重进一下。")
+                .setPositiveButton("好", null)
+                .show()
+        } catch (e: Exception) {
+            Toast.makeText(requireContext(), "导入失败：" + e.message, Toast.LENGTH_LONG).show()
+        }
     }
 
     private fun isServiceEnabled(): Boolean {        val ctx = context ?: return false

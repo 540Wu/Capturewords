@@ -77,23 +77,23 @@ object StudyGen {
 
     // ---------- 通用请求 ----------
 
-    private fun askJson(apiKey: String, prompt: String): JSONArray {
-        val content = request(apiKey, prompt)
+    private fun askJson(apiKey: String, prompt: String, maxTokens: Int = 650): JSONArray {
+        val content = request(apiKey, prompt, maxTokens)
         val s = content.indexOf('[')
         val e = content.lastIndexOf(']')
         if (s < 0 || e <= s) throw RuntimeException("返回格式不对")
         return JSONArray(content.substring(s, e + 1))
     }
 
-    private fun askObject(apiKey: String, prompt: String): JSONObject {
-        val content = request(apiKey, prompt)
+    private fun askObject(apiKey: String, prompt: String, maxTokens: Int = 850): JSONObject {
+        val content = request(apiKey, prompt, maxTokens)
         val s = content.indexOf('{')
         val e = content.lastIndexOf('}')
         if (s < 0 || e <= s) throw RuntimeException("返回格式不对")
         return JSONObject(content.substring(s, e + 1))
     }
 
-    private fun request(apiKey: String, userPrompt: String): String {
+    private fun request(apiKey: String, userPrompt: String, maxTokens: Int = 650): String {
         val conn = URL(API_URL).openConnection() as HttpURLConnection
         conn.requestMethod = "POST"
         conn.connectTimeout = 20000
@@ -106,7 +106,7 @@ object StudyGen {
         body.put("model", "deepseek-chat")
         body.put("stream", false)
         body.put("temperature", 1.0)
-        body.put("max_tokens", 1200)
+        body.put("max_tokens", maxTokens)
         val msgs = JSONArray()
         msgs.put(JSONObject().put("role", "user").put("content", userPrompt))
         body.put("messages", msgs)

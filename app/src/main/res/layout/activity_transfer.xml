@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/appBg">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="14dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="两台手机连「同一个」 WiFi 或热点。一台点「开始同步」等着，另一台填地址点「连接并同步」——一次连接，双方数据双向合并。"
+            android:textColor="?attr/textSub"
+            android:textSize="12sp" />
+
+        <!-- 发送 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="?attr/cardBackground"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="① 这台先点（等待对方连过来）"
+                android:textColor="?attr/textMain"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="本机地址（填到另一台）"
+                android:textColor="?attr/textSub"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tvMyIp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="…"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btnServe"
+                style="@style/Widget.BrandButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="开始同步（等待另一台）" />
+
+            <TextView
+                android:id="@+id/tvServeState"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text=""
+                android:textColor="?attr/textSub"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <!-- 接收 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="?attr/cardBackground"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="② 另一台点这里（连过去）"
+                android:textColor="?attr/textMain"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="填上面那台显示的地址"
+                android:textColor="?attr/textSub"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:id="@+id/tvLastIp"
+                android:text=""
+                android:textColor="?attr/colorPrimary"
+                android:textSize="12sp" />
+
+            <EditText
+                android:id="@+id/etIp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:hint="192.168.43.1"
+                android:inputType="text"
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/btnFetch"
+                style="@style/Widget.OutlineButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="连接并同步" />
+
+            <TextView
+                android:id="@+id/tvFetchState"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text=""
+                android:textColor="?attr/textSub"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="24dp"
+            android:text="常见问题：\n· 连不上 → 确认两台在同一 WiFi/热点，且发送端已点「开始发送」\n· 开了热点的那台通常显示 192.168.43.1\n· 两边数据会自动合并：错词去重、短文互补、时长取较大值"
+            android:textColor="?attr/textTertiary"
+            android:textSize="11sp" />
+
+    </LinearLayout>
+
+</ScrollView>

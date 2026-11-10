@@ -38,4 +38,31 @@
     <color name="z_text">#F3F0DC</color>
     <color name="z_sub">#A8B894</color>
     <color name="z_line">#3E7A2E</color>
+
+    <!-- 暗夜紫（深色） -->
+    <color name="d_bg">#14121C</color>
+    <color name="d_card">#1F1B2E</color>
+    <color name="d_brand">#8B5CF6</color>
+    <color name="d_brand_dark">#5B21B6</color>
+    <color name="d_text">#EDE9FE</color>
+    <color name="d_sub">#A79FC4</color>
+    <color name="d_line">#2E2842</color>
+
+    <!-- 薄荷绿 -->
+    <color name="m_bg">#F1F8F5</color>
+    <color name="m_card">#FFFFFF</color>
+    <color name="m_brand">#0EA47A</color>
+    <color name="m_brand_dark">#0B8462</color>
+    <color name="m_text">#17342B</color>
+    <color name="m_sub">#5C7A70</color>
+    <color name="m_line">#DCEDE6</color>
+
+    <!-- 暖阳橙 -->
+    <color name="o_bg">#FFF6EC</color>
+    <color name="o_card">#FFFFFF</color>
+    <color name="o_brand">#F97316</color>
+    <color name="o_brand_dark">#C2410C</color>
+    <color name="o_text">#3D2A18</color>
+    <color name="o_sub">#8A6A50</color>
+    <color name="o_line">#F5E3D0</color>
 </resources>

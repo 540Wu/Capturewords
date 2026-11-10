@@ -9,4 +9,5 @@
     <attr name="cardSolid" format="color" />
     <attr name="btnCorner" format="dimension" />
     <attr name="btnStroke" format="dimension" />
+    <attr name="toolbarBg" format="reference" />
 </resources>

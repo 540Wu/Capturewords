@@ -17,7 +17,28 @@ object MeaningFiller {
 
     fun fill(apiKey: String, words: List<String>): List<Item> {
         if (words.isEmpty()) return emptyList()
-        val resp = post(apiKey, buildPrompt(words))
+
+        // 先查本地词库，命中就不花钱了
+        val out = ArrayList<Item>()
+        val need = ArrayList<String>()
+        for (w in words) {
+            val hit = WordBank.lookup(w)
+            if (hit != null && hit.meaning.isNotEmpty()) {
+                out.add(Item(w, hit.phonetic, hit.meaning))
+            } else {
+                need.add(w)
+            }
+        }
+
+        // 本地没有的才交给 AI
+        if (need.isNotEmpty() && apiKey.isNotEmpty()) {
+            out.addAll(aiFill(apiKey, need))
+        }
+        return out
+    }
+
+    private fun aiFill(apiKey: String, words: List<String>): List<Item> {
+        val resp = post(apiKey, buildPrompt(words), words.size)
         return parse(resp)
     }
 
@@ -33,7 +54,7 @@ object MeaningFiller {
         return sb.toString()
     }
 
-    private fun post(apiKey: String, userPrompt: String): String {
+    private fun post(apiKey: String, userPrompt: String, wordCount: Int): String {
         val conn = URL(API_URL).openConnection() as HttpURLConnection
         conn.requestMethod = "POST"
         conn.connectTimeout = 20000
@@ -46,6 +67,8 @@ object MeaningFiller {
         body.put("model", "deepseek-chat")
         body.put("stream", false)
         body.put("temperature", 0.3)
+        // 每个词约 45 token（音标+释义），加一点余量
+        body.put("max_tokens", minOf(150 + wordCount * 45, 1400))
         val msgs = JSONArray()
         msgs.put(JSONObject().put("role", "user").put("content", userPrompt))
         body.put("messages", msgs)

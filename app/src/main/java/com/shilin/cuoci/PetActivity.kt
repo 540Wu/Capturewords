@@ -150,6 +150,13 @@ class PetActivity : AppCompatActivity() {
             return
         }
 
+        // 每天最多 60 条，防止一直聊烧 token
+        if (Prefs.petChatCount(this) >= 60) {
+            Toast.makeText(this, "今天聊得够多啦，明天再来～", Toast.LENGTH_LONG).show()
+            return
+        }
+        Prefs.incPetChat(this)
+
         etMsg.setText("")
         addBubble(true, text)
         history.add(Pair(true, text))

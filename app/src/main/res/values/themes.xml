@@ -20,6 +20,7 @@
         <item name="textTertiary">@color/text_tertiary</item>
         <item name="lineColor">@color/line</item>
         <item name="cardSolid">@color/card</item>
+        <item name="toolbarBg">@drawable/bg_toolbar</item>
         <item name="btnCorner">14dp</item>
         <item name="btnStroke">0dp</item>
     </style>
@@ -40,6 +41,7 @@
         <item name="textTertiary">@color/farm_sub</item>
         <item name="lineColor">@color/farm_line</item>
         <item name="cardSolid">@color/farm_card</item>
+        <item name="toolbarBg">@drawable/bg_toolbar_farm</item>
         <item name="btnCorner">10dp</item>
         <item name="btnStroke">2dp</item>
     </style>
@@ -87,6 +89,7 @@
         <item name="textTertiary">@color/text_tertiary</item>
         <item name="lineColor">@color/line</item>
         <item name="cardSolid">@color/card</item>
+        <item name="toolbarBg">@drawable/bg_toolbar</item>
         <item name="btnCorner">14dp</item>
         <item name="btnStroke">0dp</item>
     </style>
@@ -106,6 +109,7 @@
         <item name="textTertiary">@color/farm_sub</item>
         <item name="lineColor">@color/farm_line</item>
         <item name="cardSolid">@color/farm_card</item>
+        <item name="toolbarBg">@drawable/bg_toolbar_farm</item>
         <item name="btnCorner">10dp</item>
         <item name="btnStroke">2dp</item>
     </style>
@@ -153,6 +157,126 @@
         <item name="strokeColor">?attr/lineColor</item>
         <item name="android:textColor">?attr/textMain</item>
         <item name="android:textSize">14sp</item>
+    </style>    <!-- ========== 暗夜紫（深色） ========== -->
+    <style name="Theme.CaptureWords.Dark">
+        <item name="colorPrimary">@color/d_brand</item>
+        <item name="colorPrimaryVariant">@color/d_brand_dark</item>
+        <item name="colorOnPrimary">#FFFFFFFF</item>
+        <item name="colorSecondary">@color/d_brand</item>
+        <item name="colorSecondaryVariant">@color/d_brand_dark</item>
+        <item name="colorOnSecondary">#FFFFFFFF</item>
+        <item name="android:statusBarColor" tools:targetApi="l">#FF0B0913</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
+        <item name="android:windowBackground">@color/d_bg</item>
+        <item name="android:navigationBarColor">@color/d_card</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o">false</item>
+        <item name="appBg">@color/d_bg</item>
+        <item name="cardBackground">@drawable/bg_card_dark</item>
+        <item name="textMain">@color/d_text</item>
+        <item name="textSub">@color/d_sub</item>
+        <item name="textTertiary">@color/d_sub</item>
+        <item name="lineColor">@color/d_line</item>
+        <item name="cardSolid">@color/d_card</item>
+        <item name="btnCorner">14dp</item>
+        <item name="btnStroke">0dp</item>
+        <item name="toolbarBg">@drawable/bg_toolbar_dark</item>
+    </style>
+
+    <style name="Theme.CaptureWords.Sub.Dark">
+        <item name="colorPrimary">@color/d_brand</item>
+        <item name="colorPrimaryVariant">@color/d_brand_dark</item>
+        <item name="colorSecondary">@color/d_brand</item>
+        <item name="colorSecondaryVariant">@color/d_brand_dark</item>
+        <item name="android:statusBarColor" tools:targetApi="l">#FF0B0913</item>
+        <item name="android:windowBackground">@color/d_bg</item>
+        <item name="appBg">@color/d_bg</item>
+        <item name="cardBackground">@drawable/bg_card_dark</item>
+        <item name="textMain">@color/d_text</item>
+        <item name="textSub">@color/d_sub</item>
+        <item name="textTertiary">@color/d_sub</item>
+        <item name="lineColor">@color/d_line</item>
+        <item name="cardSolid">@color/d_card</item>
+        <item name="btnCorner">14dp</item>
+        <item name="btnStroke">0dp</item>
+        <item name="toolbarBg">@drawable/bg_toolbar_dark</item>
+    </style>
+
+    <!-- ========== 薄荷绿 ========== -->
+    <style name="Theme.CaptureWords.Mint">
+        <item name="colorPrimary">@color/m_brand</item>
+        <item name="colorPrimaryVariant">@color/m_brand_dark</item>
+        <item name="colorSecondary">@color/m_brand</item>
+        <item name="colorSecondaryVariant">@color/m_brand_dark</item>
+        <item name="android:statusBarColor" tools:targetApi="l">@color/m_brand_dark</item>
+        <item name="android:windowBackground">@color/m_bg</item>
+        <item name="appBg">@color/m_bg</item>
+        <item name="cardBackground">@drawable/bg_card</item>
+        <item name="textMain">@color/m_text</item>
+        <item name="textSub">@color/m_sub</item>
+        <item name="textTertiary">@color/m_sub</item>
+        <item name="lineColor">@color/m_line</item>
+        <item name="cardSolid">@color/m_card</item>
+        <item name="btnCorner">14dp</item>
+        <item name="btnStroke">0dp</item>
+        <item name="toolbarBg">@drawable/bg_toolbar_mint</item>
+    </style>
+
+    <style name="Theme.CaptureWords.Sub.Mint">
+        <item name="colorPrimary">@color/m_brand</item>
+        <item name="colorPrimaryVariant">@color/m_brand_dark</item>
+        <item name="colorSecondary">@color/m_brand</item>
+        <item name="colorSecondaryVariant">@color/m_brand_dark</item>
+        <item name="android:statusBarColor" tools:targetApi="l">@color/m_brand_dark</item>
+        <item name="android:windowBackground">@color/m_bg</item>
+        <item name="appBg">@color/m_bg</item>
+        <item name="cardBackground">@drawable/bg_card</item>
+        <item name="textMain">@color/m_text</item>
+        <item name="textSub">@color/m_sub</item>
+        <item name="textTertiary">@color/m_sub</item>
+        <item name="lineColor">@color/m_line</item>
+        <item name="cardSolid">@color/m_card</item>
+        <item name="btnCorner">14dp</item>
+        <item name="btnStroke">0dp</item>
+        <item name="toolbarBg">@drawable/bg_toolbar_mint</item>
+    </style>
+
+    <!-- ========== 暖阳橙 ========== -->
+    <style name="Theme.CaptureWords.Sunset">
+        <item name="colorPrimary">@color/o_brand</item>
+        <item name="colorPrimaryVariant">@color/o_brand_dark</item>
+        <item name="colorSecondary">@color/o_brand</item>
+        <item name="colorSecondaryVariant">@color/o_brand_dark</item>
+        <item name="android:statusBarColor" tools:targetApi="l">@color/o_brand_dark</item>
+        <item name="android:windowBackground">@color/o_bg</item>
+        <item name="appBg">@color/o_bg</item>
+        <item name="cardBackground">@drawable/bg_card</item>
+        <item name="textMain">@color/o_text</item>
+        <item name="textSub">@color/o_sub</item>
+        <item name="textTertiary">@color/o_sub</item>
+        <item name="lineColor">@color/o_line</item>
+        <item name="cardSolid">@color/o_card</item>
+        <item name="btnCorner">14dp</item>
+        <item name="btnStroke">0dp</item>
+        <item name="toolbarBg">@drawable/bg_toolbar_sunset</item>
+    </style>
+
+    <style name="Theme.CaptureWords.Sub.Sunset">
+        <item name="colorPrimary">@color/o_brand</item>
+        <item name="colorPrimaryVariant">@color/o_brand_dark</item>
+        <item name="colorSecondary">@color/o_brand</item>
+        <item name="colorSecondaryVariant">@color/o_brand_dark</item>
+        <item name="android:statusBarColor" tools:targetApi="l">@color/o_brand_dark</item>
+        <item name="android:windowBackground">@color/o_bg</item>
+        <item name="appBg">@color/o_bg</item>
+        <item name="cardBackground">@drawable/bg_card</item>
+        <item name="textMain">@color/o_text</item>
+        <item name="textSub">@color/o_sub</item>
+        <item name="textTertiary">@color/o_sub</item>
+        <item name="lineColor">@color/o_line</item>
+        <item name="cardSolid">@color/o_card</item>
+        <item name="btnCorner">14dp</item>
+        <item name="btnStroke">0dp</item>
+        <item name="toolbarBg">@drawable/bg_toolbar_sunset</item>
     </style>
 
 </resources>
